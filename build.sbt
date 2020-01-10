@@ -19,30 +19,16 @@ lazy val dist = TaskKey[File]("dist")
 
 lazy val `basic` =
   project
-    .enablePlugins(ScalablyTypedConverterPlugin)
-    .configure(baseSettings, scalajsBundler, browserProject, slinkyWeb, reactNpmDeps)
+    .configure(reactRouter)
     .settings(
-      webpackDevServerPort := 8007,
-      Compile / stIgnore += "csstype",
-      Compile / stMinimize := Selection.All,
-      Compile / npmDependencies ++= Seq(
-        "react-router-dom" -> "5.1.2",
-        "@types/react-router-dom" -> "5.1.2"
-      )
+      webpackDevServerPort := 8007
     )
 
 lazy val `auth` =
   project
-    .enablePlugins(ScalablyTypedConverterPlugin)
-    .configure(baseSettings, scalajsBundler, browserProject, slinkyWeb, reactNpmDeps)
+    .configure(reactRouter)
     .settings(
-      webpackDevServerPort := 8008,
-      Compile / stIgnore += "csstype",
-      Compile / stMinimize := Selection.All,
-      Compile / npmDependencies ++= Seq(
-        "react-router-dom" -> "5.1.2",
-        "@types/react-router-dom" -> "5.1.2"
-      )
+      webpackDevServerPort := 8008
     )
 
 lazy val baseSettings: Project => Project =
@@ -78,6 +64,18 @@ lazy val reactNpmDeps: Project => Project =
       "react" -> "16.9",
       "react-dom" -> "16.9",
       "@types/react" -> "16.9.5"
+    )
+  )
+
+lazy val reactRouter: Project => Project =
+  _.enablePlugins(ScalablyTypedConverterPlugin)
+    .configure(baseSettings, scalajsBundler, browserProject, slinkyWeb, reactNpmDeps)
+    .settings(
+    Compile / stIgnore += "csstype",
+    Compile / stMinimize := Selection.All,
+    Compile / npmDependencies ++= Seq(
+      "react-router-dom" -> "5.1.2",
+      "@types/react-router-dom" -> "5.1.2"
     )
   )
 
