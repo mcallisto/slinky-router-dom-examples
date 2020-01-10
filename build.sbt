@@ -20,7 +20,7 @@ lazy val dist = TaskKey[File]("dist")
 lazy val `basic` =
   project
     .enablePlugins(ScalablyTypedConverterPlugin)
-    .configure(baseSettings, scalajsBundler, browserProject, slinkyReact)
+    .configure(baseSettings, scalajsBundler, browserProject, slinkyWeb, reactNpmDeps)
     .settings(
       webpackDevServerPort := 8007,
       Compile / stIgnore += "csstype",
@@ -31,6 +31,19 @@ lazy val `basic` =
       )
     )
 
+lazy val `auth` =
+  project
+    .enablePlugins(ScalablyTypedConverterPlugin)
+    .configure(baseSettings, scalajsBundler, browserProject, slinkyWeb, reactNpmDeps)
+    .settings(
+      webpackDevServerPort := 8008,
+      Compile / stIgnore += "csstype",
+      Compile / stMinimize := Selection.All,
+      Compile / npmDependencies ++= Seq(
+        "react-router-dom" -> "5.1.2",
+        "@types/react-router-dom" -> "5.1.2"
+      )
+    )
 
 lazy val baseSettings: Project => Project =
   _.enablePlugins(ScalaJSPlugin)
@@ -46,15 +59,21 @@ lazy val baseSettings: Project => Project =
       scalacOptions += "-P:scalajs:sjsDefinedByDefault",
       /* for slinky*/
       libraryDependencies ++= Seq(
-        "me.shadaj" %%% "slinky-web" % "0.6.3",
         "me.shadaj" %%% "slinky-hot" % "0.6.3"
       ),
       scalacOptions += "-Ymacro-annotations"
     )
 
-lazy val slinkyReact: Project => Project =
+lazy val slinkyWeb: Project => Project =
   _.settings(
     Compile / stFlavour := Flavour.Slinky,
+    libraryDependencies ++= Seq(
+      "me.shadaj" %%% "slinky-web" % "0.6.3"
+    )
+  )
+
+lazy val reactNpmDeps: Project => Project =
+  _.settings(
     Compile / npmDependencies ++= Seq(
       "react" -> "16.9",
       "react-dom" -> "16.9",
