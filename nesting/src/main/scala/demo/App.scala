@@ -3,8 +3,9 @@ package demo
 import slinky.core._
 import slinky.core.annotations.react
 import slinky.web.html._
-import typingsSlinky.reactDashRouter.reactDashRouterMod._
-import typingsSlinky.reactDashRouterDashDom.components._
+
+import typingsSlinky.reactDashRouterDashDom.components.{BrowserRouter, Link, Route}
+import typingsSlinky.reactDashRouter.reactDashRouterMod.{RouteProps, `match`}
 
 import scala.scalajs.js
 
@@ -27,9 +28,9 @@ import scala.scalajs.js
       BrowserRouter(
         div(
           ul(
-            li(Link[js.Object](to = "/")("Home")),
-            li(Link[js.Object](to = "/about")("About")),
-            li(Link[js.Object](to = "/topics")("Topics"))
+            li(Link[String](to = "/")("Home")),
+            li(Link[String](to = "/about")("About")),
+            li(Link[String](to = "/topics")("Topics"))
           ),
           hr(),
           Route(RouteProps(exact = true, path = "/", render = _ => home)),
@@ -45,22 +46,22 @@ import scala.scalajs.js
 
   type Props = `match`[_]
 
-  val component = FunctionalComponent[Props] { m =>
+  val component = FunctionalComponent[Props] { props =>
     div(
       h2("Topics"),
       ul(
-        li(Link[js.Object](to = m.url + "/rendering")("Rendering with React")),
-        li(Link[js.Object](to = m.url + "/components")("Components")),
-        li(Link[js.Object](to = m.url + "/props-v-state")("Props v. State"))
+        li(Link[String](to = props.url + "/rendering")("Rendering with React")),
+        li(Link[String](to = props.url + "/components")("Components")),
+        li(Link[String](to = props.url + "/props-v-state")("Props v. State"))
       ),
       hr(),
       Route(
         RouteProps(
-          path = m.path + "/:topicId",
-          render = props => Topic(props.`match`.asInstanceOf[`match`[Topic.Param]])
+          path = props.path + "/:topicId",
+          render = p => Topic(p.`match`.asInstanceOf[`match`[Topic.Param]])
         )
       ),
-      Route(RouteProps(exact = true, path = m.path, render = _ => h3("Please select a topic")))
+      Route(RouteProps(exact = true, path = props.path, render = _ => h3("Please select a topic")))
     )
   }
 }
