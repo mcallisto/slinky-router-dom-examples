@@ -3,10 +3,9 @@ package demo
 import slinky.core._
 import slinky.core.annotations.react
 import slinky.web.html._
-import typingsSlinky.reactDashRouter.reactDashRouterMod._
-import typingsSlinky.reactDashRouterDashDom.components._
 
-import scala.scalajs.js
+import typingsSlinky.reactDashRouterDashDom.components.{BrowserRouter, Link, Route}
+import typingsSlinky.reactDashRouter.reactDashRouterMod.RouteProps
 
 @react object App {
 
@@ -15,6 +14,8 @@ import scala.scalajs.js
   def home = div(h2("Home"))
 
   def about = div(h2("About"))
+
+  def dashboard = div(h2("Dashboard"))
 
   val component = FunctionalComponent[Props] { _ =>
     val renderIntro = div(
@@ -27,56 +28,16 @@ import scala.scalajs.js
       BrowserRouter(
         div(
           ul(
-            li(Link[js.Object](to = "/")("Home")),
-            li(Link[js.Object](to = "/about")("About")),
-            li(Link[js.Object](to = "/topics")("Topics"))
+            li(Link[String](to = "/")("Home")),
+            li(Link[String](to = "/about")("About")),
+            li(Link[String](to = "/dashboard")("Dashboard"))
           ),
           hr(),
           Route(RouteProps(exact = true, path = "/", render = _ => home)),
           Route(RouteProps(path = "/about", render = _ => about)),
-          Route(RouteProps(path = "/topics", render = props => Topics(props.`match`)))
+          Route(RouteProps(path = "/dashboard", render = _ => dashboard))
         )
       )
-    )
-  }
-}
-
-@react object Topics {
-
-  type Props = `match`[_]
-
-  val component = FunctionalComponent[Props] { m =>
-    div(
-      h2("Topics"),
-      ul(
-        li(Link[js.Object](to = m.url + "/rendering")("Rendering with React")),
-        li(Link[js.Object](to = m.url + "/components")("Components")),
-        li(Link[js.Object](to = m.url + "/props-v-state")("Props v. State"))
-      ),
-      hr(),
-      Route(
-        RouteProps(
-          path = m.path + "/:topicId",
-          render = props => Topic(props.`match`.asInstanceOf[`match`[Topic.Param]])
-        )
-      ),
-      Route(RouteProps(exact = true, path = m.path, render = _ => h3("Please select a topic")))
-    )
-  }
-}
-
-@react object Topic {
-
-  @js.native
-  trait Param extends js.Object {
-    val topicId: String = js.native
-  }
-
-  case class Props(`match`: `match`[Topic.Param])
-
-  val component = FunctionalComponent[Props] { props =>
-    div(
-      h3("Topic: " + props.`match`.params.topicId)
     )
   }
 }
