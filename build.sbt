@@ -21,6 +21,13 @@ lazy val `basic` =
   project
     .configure(reactRouter)
     .settings(
+      webpackDevServerPort := 8005
+    )
+
+lazy val `nesting` =
+  project
+    .configure(reactRouter)
+    .settings(
       webpackDevServerPort := 8007
     )
 
