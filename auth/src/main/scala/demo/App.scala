@@ -6,8 +6,8 @@ import slinky.core.facade.Hooks._
 import slinky.core.facade.ReactElement
 import slinky.web.html._
 
-import typingsSlinky.reactDashRouter.reactDashRouterMod._
-import typingsSlinky.reactDashRouterDashDom.components._
+import typings.reactRouter.mod.RouteProps
+import typings.reactRouterDom.components.{BrowserRouter, Link, Redirect, Route, Switch}
 
 import scala.scalajs.js
 import org.scalajs.dom.window.setTimeout

@@ -4,8 +4,8 @@ import slinky.core._
 import slinky.core.annotations.react
 import slinky.web.html._
 
-import typingsSlinky.reactDashRouterDashDom.components.{BrowserRouter, Link, Route, Switch}
-import typingsSlinky.reactDashRouter.reactDashRouterMod.{`match`, RouteProps}
+import typings.reactRouter.mod.{`match`, RouteProps}
+import typings.reactRouterDom.components.{BrowserRouter, Link, Route, Switch}
 
 import scala.scalajs.js
 

@@ -4,8 +4,8 @@ import slinky.core._
 import slinky.core.annotations.react
 import slinky.web.html._
 
-import typingsSlinky.reactDashRouterDashDom.components.{BrowserRouter, Link, Route}
-import typingsSlinky.reactDashRouter.reactDashRouterMod.RouteProps
+import typings.reactRouter.mod.RouteProps
+import typings.reactRouterDom.components.{BrowserRouter, Link, Route}
 
 @react object App {
 
